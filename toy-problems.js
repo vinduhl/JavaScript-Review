@@ -148,7 +148,33 @@ longestWords("Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo") 
 
 */
 
+function longestWords(string) {
 
+  var wordLengths = {};
+  var wordsArray = string.split(" ");
+
+  for(var i = 0; i < wordsArray.length; i++) {
+    var charCount = wordsArray[i].length;
+    var currentWord = wordsArray[i].toLowerCase();
+    if(!wordLengths.hasOwnProperty(charCount)) {
+      wordLengths[charCount] = [];
+    }
+    var containedWords = wordLengths[charCount];
+    if(containedWords.indexOf(currentWord) === -1) {
+      containedWords.push(currentWord);
+    }
+  }
+
+  var props = Object.keys(wordLengths);
+  props.sort(function(a, b) {
+    return parseInt(a) - parseInt(b);
+  }).reverse();
+  return wordLengths[props[0]];
+}
+
+console.log(longestWords("You are just an old antidisestablishmentarian")); // ["antidisestablishmentarian"]
+console.log(longestWords("I gave a present to my parents")); // ["present", "parents"]
+console.log(longestWords("Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo")); // ["buffalo"] or ["Buffalo"]
 /*
 
 If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
@@ -157,12 +183,53 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 
 */
 
+function sumMultiplesBelowNum(num) {
+
+  return function(numArray) {
+    var multiples = [];
+    numArray.sort(function(a, b) { return a - b; }); // to get the lower boundary
+    for(var i = numArray[0]; i < num; i++) {
+      for(var j = 0; j < numArray.length; j++) {
+        if(i % numArray[j] === 0) {
+          if(multiples.indexOf(i) === -1) {
+            multiples.push(i);
+          }
+        }
+      }
+    }
+    var sum = 0;
+    for(var i = 0; i < multiples.length; i++) {
+      sum += multiples[i];
+    }
+    return sum;
+  }
+}
+
+var sumMultiplesBelow10 = sumMultiplesBelowNum(10);
+var sumMultiplesBelow1000 = sumMultiplesBelowNum(1000);
+console.log("The sum of the multiples of 3 or 5 below 10 is: " + sumMultiplesBelow10([3, 5]));
+console.log("The sum of the multiples of 3 or 5 below 1000 is: " + sumMultiplesBelow1000([3, 5]));
 
 /*
 
 Remove duplicate characters in a given string keeping only the first occurrences. For example, if the input is ‘tree traversal’ the output will be "tre avsl".
 
 */
+
+var removeDups = function(string) {
+  var stringArray = string.split("");
+  for(var i = stringArray.length - 1; i > 0; i--) {
+    var char = stringArray[i];
+    if(char !== " ") {
+      if(i !== stringArray.indexOf(char)) {
+        stringArray.splice(i, 1);
+      }
+    }
+  }
+  return stringArray.join("");
+}
+
+console.log("'tree traversal’ without duplicate characters: '" + removeDups("tree traversal") + "'");
 
 
 
