@@ -240,3 +240,19 @@ console.log(sum(2,3));   // Outputs 5
 console.log(sum(2)(3));  // Outputs 5
 
 */
+
+function sum(num1, num2) {
+
+  if(num2 || num2 === 0) {
+    return inner(num2);
+  }
+
+  function inner(num2) {
+    return num1 + num2;
+  };
+
+  return inner;
+}
+
+console.log(sum(2,3));   // Outputs 5
+console.log(sum(2)(3));  // Outputs 5
